@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="color-scheme" content="light"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Your AI Action Plan — elevatemy.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+/* =========================================================================
+   Swap these values to match a client's brand once you have it. Until
+   then, this is the generic elevatemy.ai palette.
+   ========================================================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{color-scheme:light;}
+:root{
+  --navy:#1B3A6B;--navy-light:#2A4E8C;
+  --teal:#00A99D;--teal-light:#5BC8C0;--teal-pale:#E1F5F4;
+  --amber:#C4773B;--cream:#EDE7DC;--cream-dark:#E4DDCE;
+  --sand:#8B7355;--white:#ffffff;
+  --text-dark:#1a1a1a;--text-muted:#5a5a5a;--border:#ddd9d0;
+  --radius:12px;--radius-sm:8px;--radius-lg:20px;
+  --emerald:#0F6E56;--red:#c0392b;
+  --d:'Bricolage Grotesque','Georgia',serif;
+  --b:'Inter','Arial',sans-serif;
+  --m:'JetBrains Mono','Courier New',monospace;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--b);background:var(--cream);color:var(--text-dark);line-height:1.6;font-size:16px;min-height:100vh;}
+
+nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-icon{width:38px;height:38px;background:var(--navy);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;flex-shrink:0;}
+.nav-logo-icon span{display:block;height:3px;border-radius:2px;background:var(--teal);}
+.nav-logo-icon span:nth-child(2){width:14px;background:var(--teal-light);}
+.nav-logo-icon span:nth-child(1),.nav-logo-icon span:nth-child(3){width:20px;}
+.wordmark{font-family:var(--d);font-size:22px;font-weight:700;letter-spacing:-0.03em;line-height:1;}
+.wordmark .elevate{color:var(--navy);}.wordmark .my{color:var(--teal);}
+.wordmark .dot{color:var(--amber);font-weight:300;font-family:var(--b);}
+.wordmark .ai{color:var(--navy);font-family:var(--m);font-weight:400;font-size:20px;}
+
+.wrap{max-width:820px;margin:0 auto;padding:3rem 1.5rem 5rem;}
+
+.hero-eyebrow{font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--teal);margin-bottom:0.5rem;}
+.hero-title{font-family:var(--d);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--navy);margin-bottom:0.5rem;}
+.hero-sub{font-size:14px;color:var(--text-muted);line-height:1.6;max-width:560px;}
+
+/* PROGRESS */
+
+.section-label{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--sand);margin:2.5rem 0 1rem;}
+.section-label.tight{margin-top:1.5rem;}
+
+.step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:0.85rem;overflow:hidden;transition:border-color 0.2s;}
+.step.done{border-color:var(--teal);}
+.step-head{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem 1.4rem;cursor:pointer;}
+.step-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;transition:all 0.2s;background:transparent;cursor:pointer;color:#fff;}
+.step.done .step-check{background:var(--teal);border-color:var(--teal);}
+.step-body-wrap{flex:1;}
+.step-title-row{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.3rem;}
+.step-title{font-size:0.95rem;font-weight:700;color:var(--navy);}
+.step.done .step-title{color:var(--sand);text-decoration:line-through;}
+
+.completed-section{margin-top:1.5rem;padding-top:1.25rem;border-top:2px dashed var(--border);}
+.completed-header{display:flex;align-items:center;gap:0.5rem;font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--sand);margin-bottom:0.9rem;cursor:pointer;user-select:none;}
+.completed-header span:last-child{color:var(--text-muted);font-weight:600;text-transform:none;letter-spacing:0;}
+.completed-section .step{opacity:0.75;}
+.completed-section .step:hover{opacity:1;}
+.tag{font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:2px 9px;border-radius:10px;white-space:nowrap;}
+.tag-ai{background:var(--teal-pale);color:#0F6E56;}
+.tag-human{background:#FAEEDA;color:#854F0B;}
+.step-desc{font-size:13px;font-weight:400;color:var(--text-muted);line-height:1.6;}
+
+/* TASK TAGS — the filterable, freeform labels that replace the old
+   5-way nesting (This Week/30/60/90 Days/Someday, or Project > Group).
+   A task can carry zero or more; they're purely a filter, never a
+   place a task has to "live." */
+.task-tags{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.3rem 0 0.5rem;}
+.task-tag{font-size:10.5px;font-weight:600;color:var(--navy);background:var(--cream-dark);padding:2px 8px;border-radius:8px;white-space:nowrap;}
+
+.value-trade{display:flex;flex-wrap:wrap;gap:0.5rem;margin:0.5rem 0 0.6rem;}
+.value-chip{display:flex;align-items:center;gap:0.4rem;font-size:11.5px;font-weight:600;padding:0.3rem 0.65rem;border-radius:7px;line-height:1.3;}
+.value-give{background:var(--cream-dark);color:var(--text-muted);}
+.value-get{background:var(--teal-pale);color:#0F6E56;}
+
+.time-compare{margin:0.5rem 0 0.6rem;width:100%;flex-basis:100%;}
+.time-row{display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);margin-bottom:0.2rem;}
+.time-row.ai{color:#0F6E56;font-weight:700;}
+.time-track{height:7px;background:var(--cream-dark);border-radius:4px;overflow:hidden;margin-bottom:0.55rem;}
+.time-track:last-of-type{margin-bottom:0;}
+.time-fill{height:100%;border-radius:4px;}
+.time-fill.now{background:var(--sand);opacity:0.55;}
+.time-fill.ai{background:var(--teal);}
+.step-toggle-icon{color:var(--sand);font-size:0.7rem;margin-top:4px;transition:transform 0.2s;}
+.step.expanded .step-toggle-icon{transform:rotate(180deg);}
+
+.step-detail{display:none;padding:0 1.4rem 1.4rem 3.4rem;}
+.step.expanded .step-detail{display:block;}
+.detail-block{margin-bottom:1rem;}
+.detail-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand);margin-bottom:0.4rem;}
+.detail-body{font-size:13px;font-weight:400;color:var(--text-muted);line-height:1.65;}
+.action-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem;margin-bottom:0.6rem;}
+.action-item{display:flex;align-items:flex-start;gap:0.6rem;font-size:13px;color:var(--text-muted);line-height:1.5;cursor:pointer;}
+.sub-check{width:16px;height:16px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:9px;background:transparent;color:#fff;transition:all 0.15s;}
+.action-item.sub-done .sub-check{background:var(--teal);border-color:var(--teal);}
+.action-item.sub-done .sub-text{color:var(--sand);text-decoration:line-through;}
+.sub-text{flex:1;}
+.resource-link{display:inline-block;font-size:13px;color:var(--teal);text-decoration:none;font-weight:600;margin-right:1rem;}
+.resource-link:hover{text-decoration:underline;}
+
+/* ADD A STEP — a task's OWN checklist. Deliberately NOT the same
+   mechanism as tags/nesting: this only ever attaches to the one task
+   you're already looking at, never a dropdown of everything. */
+.add-substep-row{display:flex;gap:0.5rem;margin-top:0.3rem;}
+.add-substep-row input{flex:1;padding:0.5rem 0.7rem;border:1px solid var(--border);border-radius:7px;font-family:var(--b);font-size:12.5px;color:var(--text-dark);background:var(--cream);}
+.add-substep-row input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.add-substep-row button{padding:0.5rem 0.9rem;background:var(--white);border:1px solid var(--border);border-radius:7px;font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;white-space:nowrap;}
+.add-substep-row button:hover{background:var(--cream);}
+
+.cta-card{margin-top:3rem;background:linear-gradient(135deg, var(--teal-pale) 0%, var(--white) 100%);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.25rem;text-align:center;}
+.cta-title{font-family:var(--d);font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;}
+.cta-body{font-size:14px;font-weight:400;color:var(--navy);margin-bottom:1.5rem;line-height:1.6;max-width:460px;margin-left:auto;margin-right:auto;}
+.cta-btn{display:inline-block;padding:13px 28px;background:var(--teal);color:#fff;font-size:14px;font-weight:600;border-radius:var(--radius-sm);text-decoration:none;}
+.cta-btn:hover{filter:brightness(1.08);}
+
+.powered-by{text-align:center;margin-top:2.5rem;font-size:11px;color:var(--sand);letter-spacing:0.02em;}
+.powered-by a{color:var(--sand);text-decoration:none;font-weight:600;}
+.powered-by a:hover{text-decoration:underline;}
+
+/* TOP CAPTURE ROW — Add a Task + Drop a Thought, side by side, above
+   the fold. If someone just wants to fire off a task or a stray idea
+   without scrolling, both are right here. Stacks on mobile. */
+.top-capture-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.1rem;align-items:start;}
+@media(max-width:720px){ .top-capture-grid{grid-template-columns:1fr;} }
+
+/* CHAT WIDGET — "Talk it through" / "Add a task" / "Drop a thought" all
+   share this card shell. */
+.chat-card{margin-top:2.5rem;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.75rem;}
+.top-capture-grid .chat-card{margin-top:0;}
+.chat-title{font-family:var(--d);font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem;}
+.chat-sub{font-size:13px;color:var(--text-muted);line-height:1.55;margin-bottom:1.1rem;}
+.chat-log{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:0.6rem;margin-bottom:0.9rem;padding-right:4px;}
+.chat-log:empty{display:none;}
+.chat-msg{padding:0.6rem 0.85rem;border-radius:10px;font-size:13.5px;line-height:1.5;max-width:85%;}
+.chat-user{background:var(--teal);color:#fff;align-self:flex-end;border-bottom-right-radius:3px;}
+.chat-assistant{background:var(--cream);color:var(--text-dark);align-self:flex-start;border-bottom-left-radius:3px;}
+.chat-thinking{opacity:0.6;font-style:italic;}
+.chat-input-row{display:flex;gap:0.6rem;margin-bottom:0.9rem;}
+.chat-input-row input{flex:1;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;color:var(--text-dark);background:var(--white);}
+.chat-input-row input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.chat-input-row button{padding:0.7rem 1.3rem;background:var(--teal);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;}
+.chat-input-row button:hover{filter:brightness(1.08);}
+.add-task-grid{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:0.2rem;}
+.add-task-grid input, .add-task-grid select{width:100%;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;color:var(--text-dark);background:var(--white);box-sizing:border-box;}
+.add-task-grid input:focus, .add-task-grid select:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.add-task-row2{display:flex;gap:0.6rem;}
+.add-task-row2 select{flex:1;min-width:0;}
+.add-task-row2 button{padding:0.7rem 1.3rem;background:var(--teal);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.add-task-row2 button:hover{filter:brightness(1.08);}
+#chatMic{padding:0.7rem 0.9rem;background:var(--white);border:1px solid var(--border);color:var(--navy);font-size:16px;}
+#chatMic:hover{background:var(--cream);}
+#chatMic.listening{background:var(--teal);border-color:var(--teal);color:#fff;}
+.chat-actions{display:flex;gap:0.6rem;flex-wrap:wrap;}
+.chat-actions button{padding:0.5rem 0.9rem;background:transparent;border:1px solid var(--border);border-radius:7px;font-size:12px;color:var(--text-muted);cursor:pointer;font-weight:600;}
+.chat-actions button:hover{background:var(--cream);}
+.privacy-note{margin-top:0.9rem;padding-top:0.9rem;border-top:1px solid var(--border);font-size:11px;color:var(--sand);line-height:1.6;}
+
+/* DROP A THOUGHT — shared, cross-device quick-capture list. Backed by
+   Upstash Redis via api/thoughts.js. For anything that doesn't have a
+   home yet — separate on purpose from the structured Tasks/Tags system
+   below; this is the un-triaged inbox. */
+.thought-list{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;max-height:280px;overflow-y:auto;}
+.thought-item{display:flex;align-items:flex-start;gap:0.6rem;padding:0.6rem 0.7rem;border:1px solid var(--border);border-radius:8px;background:var(--cream);}
+.thought-item.approved{border-color:var(--teal);background:var(--teal-pale);}
+.thought-check{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;margin-top:2px;cursor:pointer;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;padding:0;}
+.thought-check.checked{background:var(--teal);border-color:var(--teal);}
+.thought-body{flex:1;}
+.thought-text{font-size:13.5px;color:var(--text-dark);line-height:1.4;}
+.thought-meta{font-size:10.5px;color:var(--sand);margin-top:0.2rem;}
+.thought-remove{background:transparent;border:none;color:var(--sand);cursor:pointer;font-size:14px;padding:0.1rem 0.3rem;flex-shrink:0;}
+.thought-remove:hover{color:var(--text-dark);}
+.thought-empty{font-size:12.5px;color:var(--text-muted);font-style:italic;padding:0.4rem 0;}
+#thoughtMic{padding:0.7rem 0.9rem;background:var(--white);border:1px solid var(--border);color:var(--navy);font-size:16px;}
+#thoughtMic:hover{background:var(--cream);}
+#thoughtMic.listening{background:var(--teal);border-color:var(--teal);color:#fff;}
+#thoughtAuthor{padding:0.7rem 0.6rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13px;color:var(--text-dark);background:var(--white);}
+.thought-assignee{margin-top:0.4rem;font-size:11.5px;font-weight:600;color:var(--text-muted);padding:0.2rem 0.5rem;border:1px solid var(--border);border-radius:6px;background:var(--white);}
+.thought-queue-banner{display:flex;justify-content:space-between;align-items:center;gap:0.75rem;flex-wrap:wrap;background:var(--teal-pale);border:1px solid var(--teal-light);border-radius:8px;padding:0.7rem 0.9rem;margin-bottom:0.6rem;font-size:12.5px;color:#0F6E56;font-weight:600;}
+.thought-queue-banner button{padding:0.4rem 0.8rem;background:var(--navy);color:#fff;border:none;border-radius:6px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.thought-queue-banner button:hover{filter:brightness(1.1);}
+
+/* TAG FILTER BAR — click a tag to narrow every When-section to just
+   that tag; click again (or Clear) to reset. Purely a filter, never a
+   required field. */
+.tag-filter-bar{display:flex;flex-wrap:wrap;gap:0.5rem;margin:1rem 0 0.5rem;}
+.tag-chip{font-family:var(--b);font-size:12px;font-weight:600;color:var(--navy);background:var(--white);border:1.5px solid var(--border);border-radius:20px;padding:0.35rem 0.85rem;cursor:pointer;transition:all 0.15s;}
+.tag-chip:hover{border-color:var(--teal);}
+.tag-chip.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+.tag-chip-clear{color:var(--sand);border-style:dashed;}
+
+/* FUTURE IDEAS — visually distinct from active steps: no checkbox, no
+   progress tracking, just something to open and read when curious. */
+.future-heading{margin:2.5rem 0 0.5rem;}
+.future-heading .section-label{margin:0 0 0.35rem;}
+.future-sub{font-size:13px;color:var(--text-muted);line-height:1.55;margin-bottom:1rem;}
+.idea{background:var(--white);border:1px dashed var(--border);border-radius:var(--radius);margin-bottom:0.7rem;overflow:hidden;}
+.idea-head{display:flex;align-items:flex-start;gap:0.9rem;padding:1.1rem 1.3rem;cursor:pointer;}
+.idea-plus{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--sand);background:transparent;transition:transform 0.2s;}
+.idea.expanded .idea-plus{transform:rotate(45deg);}
+.idea-title{font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:0.25rem;}
+.idea-blurb{font-size:13px;color:var(--text-muted);line-height:1.5;}
+.idea-detail{display:none;padding:0 1.3rem 1.1rem 3rem;}
+.idea.expanded .idea-detail{display:block;}
+.idea-detail .detail-body{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:0.7rem;}
+.idea-preview{list-style:none;display:flex;flex-direction:column;gap:0.35rem;}
+.idea-preview li{font-size:12.5px;color:var(--text-muted);padding-left:1rem;position:relative;line-height:1.5;}
+.idea-preview li::before{content:'—';position:absolute;left:0;color:var(--teal);}
+
+/* WINS SO FAR — only shows stats that actually have real numbers behind
+   them. Never fabricate a number to fill this out. */
+.wins-card{margin-top:1.4rem;background:linear-gradient(135deg, var(--teal-pale) 0%, var(--white) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem 1.6rem;}
+.wins-title{font-family:var(--d);font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:1rem;}
+.wins-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:1rem;}
+.wins-stat{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.9rem 1rem;}
+.wins-num{font-family:var(--d);font-size:1.5rem;font-weight:700;color:var(--teal);line-height:1.1;margin-bottom:0.25rem;}
+.wins-label{font-size:11.5px;color:var(--text-muted);line-height:1.4;}
+
+/* HILL-CLIMB DASHBOARD — overall progress across every task, shown as a
+   climb with checkpoints. Chapters are now Today → This Week → Next
+   Week → Future (matching the real data model 1:1, instead of the old
+   Getting Started/Foundation/Launch/Elevate labels that didn't match
+   what was actually in Airtable). */
+.dashboard-card{margin-top:1.1rem;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.6rem;}
+
+.summary-card{background:linear-gradient(135deg, var(--teal-pale) 0%, var(--white) 100%);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.6rem;margin-bottom:1.25rem;}
+.summary-top{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
+.summary-title{font-family:var(--d);font-size:0.95rem;font-weight:700;color:var(--navy);}
+.summary-chevron{font-size:11px;color:var(--sand);transition:transform 0.2s;}
+.summary-card.collapsed .summary-chevron{transform:rotate(180deg);}
+.summary-body{max-height:600px;overflow:hidden;transition:max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;opacity:1;margin-top:0.9rem;}
+.summary-card.collapsed .summary-body{max-height:0;opacity:0;margin-top:0;}
+.summary-impact{margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--border);}
+.summary-impact-num{font-family:var(--d);font-size:1.9rem;font-weight:700;color:var(--teal);line-height:1.1;}
+.summary-impact-label{font-size:11.5px;color:var(--text-muted);margin-top:0.15rem;}
+.summary-impact-caption{font-size:10px;color:var(--sand);margin-top:0.2rem;font-style:italic;}
+.summary-wins-box{background:var(--teal-pale);border:1px solid var(--amber);border-radius:var(--radius-sm);padding:0.9rem 1rem 1rem;}
+.summary-wins-label{font-size:14px;font-weight:800;letter-spacing:0.02em;text-transform:uppercase;color:var(--amber);margin-bottom:0.7rem;display:flex;align-items:center;gap:0.45rem;}
+.summary-wins-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem;}
+.summary-wins-list li{font-size:14.5px;font-weight:600;color:var(--navy);padding-left:1.2rem;position:relative;line-height:1.5;}
+.summary-wins-list li::before{content:'→';position:absolute;left:0;color:var(--amber);font-weight:700;}
+
+/* MINI-CARDS — Executive Summary / Recommended Solutions / Financial
+   Impact. Collapsed by default (unlike Quick Summary) since these are
+   reference detail, not the first thing someone needs to see. */
+.mini-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.6rem;margin-bottom:1rem;}
+.mini-card-top{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
+.mini-card-title{font-family:var(--d);font-size:0.92rem;font-weight:700;color:var(--navy);}
+.mini-card-chevron{font-size:11px;color:var(--sand);transition:transform 0.2s;}
+.mini-card.expanded .mini-card-chevron{transform:rotate(180deg);}
+.mini-card-body{max-height:0;overflow:hidden;opacity:0;transition:max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;}
+.mini-card.expanded .mini-card-body{max-height:900px;opacity:1;margin-top:0.9rem;}
+
+.mini-row{display:flex;flex-direction:column;gap:0.25rem;padding:0.6rem 0;border-bottom:1px solid var(--border);}
+.mini-row:last-child{border-bottom:none;}
+.mini-row-label{font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--sand);}
+.mini-row-value{font-size:13.5px;color:var(--text-dark);line-height:1.55;}
+
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(160px,1fr));gap:0.75rem;}
+.tool-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.8rem 0.9rem;}
+.tool-name{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:0.5rem;}
+.tool-stat{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-muted);padding:0.15rem 0;}
+.tool-stat span:last-child{color:var(--text-dark);font-weight:600;}
+
+.financial-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(140px,1fr));gap:0.75rem;}
+.financial-stat{border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.8rem 0.9rem;text-align:center;}
+.financial-num{font-family:var(--d);font-size:1.3rem;font-weight:700;color:var(--teal);}
+.financial-label{font-size:10.5px;color:var(--text-muted);margin-top:0.2rem;}
+
+.stack-list{display:flex;flex-direction:column;gap:0.75rem;}
+.stack-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.85rem 1rem;}
+.stack-category{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:0.5rem;letter-spacing:0.01em;}
+.stack-row{display:flex;justify-content:space-between;gap:1rem;font-size:12px;color:var(--text-muted);padding:0.2rem 0;}
+.stack-row span:last-child{color:var(--text-dark);font-weight:600;text-align:right;}
+.stack-row.suggest span:last-child{color:var(--teal);}
+.stack-why{font-size:11.5px;color:var(--text-muted);margin-top:0.5rem;padding-top:0.5rem;border-top:1px dashed var(--border);line-height:1.5;}
+
+.ways-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(200px,1fr));gap:0.75rem;margin-top:0.9rem;}
+.way-card{background:var(--white);border:1px solid var(--border);border-left-width:4px;border-radius:var(--radius-sm);padding:1rem 1.1rem;}
+.way-title{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:0.4rem;}
+.way-icon{font-size:1.3rem;margin-bottom:0.5rem;display:block;}
+.way-desc{font-size:12.5px;color:var(--text-muted);line-height:1.5;}
+.way-price{font-size:11.5px;font-weight:700;color:var(--navy);margin-top:0.6rem;padding-top:0.5rem;border-top:1px solid var(--border);}
+.dashboard-top{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;}
+.dashboard-title{font-family:var(--d);font-size:0.95rem;font-weight:700;color:var(--navy);}
+.dashboard-pct{font-family:var(--d);font-size:1.2rem;font-weight:700;color:var(--teal);}
+.dashboard-chevron{font-size:11px;color:var(--sand);transition:transform 0.2s;}
+.dashboard-card.collapsed .dashboard-chevron{transform:rotate(180deg);}
+.dashboard-body{max-height:900px;overflow:hidden;transition:max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;opacity:1;margin-top:0.6rem;}
+.dashboard-card.collapsed .dashboard-body{max-height:0;opacity:0;margin-top:0;}
+.hill-svg{width:100%;max-width:520px;height:auto;display:block;margin:0 auto 0.7rem;}
+.chapter-legend{display:grid;grid-template-columns:repeat(4, 1fr);gap:0.5rem;}
+.chapter-item{text-align:center;padding:0.55rem 0.3rem;border-radius:8px;transition:background 0.2s;}
+.chapter-item.current{background:var(--teal-pale);}
+.chapter-name{font-size:10px;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;color:var(--sand);margin-bottom:0.25rem;line-height:1.3;}
+.chapter-item.current .chapter-name{color:var(--navy);}
+.chapter-frac{font-family:var(--d);font-size:1.05rem;font-weight:700;color:var(--text-dark);}
+.chapter-item.chapter-done .chapter-frac{color:var(--teal);}
+
+@keyframes shake-incomplete{
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.shake-incomplete{ animation: shake-incomplete 0.4s ease; border-color: var(--teal-light) !important; }
+
+.assignee-select{font-family:var(--b);font-size:11px;font-weight:600;color:var(--text-dark);background:var(--white);border:1px solid var(--border);border-left-width:4px;border-radius:6px;padding:2px 8px 2px 6px;cursor:pointer;}
+.assignee-select:focus{outline:2px solid var(--teal);outline-offset:1px;}
+
+.notes-input{width:100%;min-height:60px;padding:0.55rem 0.75rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:12.5px;color:var(--text-dark);background:var(--cream);resize:vertical;line-height:1.5;}
+.notes-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.notes-input::placeholder{color:var(--sand);}
+
+.empty-section-note{font-size:12.5px;color:var(--text-muted);font-style:italic;padding:0.6rem 0.2rem 1.2rem;}
+
+@media(max-width:640px){
+  .wrap{padding:2rem 1.25rem 4rem;}
+  .step-detail{padding-left:1.4rem;}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon"><span style="width:20px"></span><span></span><span style="width:20px"></span></div>
+    <div class="wordmark"><span class="elevate">elevate</span><span class="my">my</span><span class="dot">.</span><span class="ai">ai</span></div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="hero-eyebrow">Your Personalized Action Plan</div>
+  <h1 class="hero-title" id="heroTitle">Loading...</h1>
+  <p class="hero-sub" id="heroSub"></p>
+
+  <div class="summary-card" id="summaryCard">
+    <div class="summary-top" onclick="toggleSummaryCollapse()">
+      <div class="summary-title">Quick Summary</div>
+      <div class="summary-chevron" id="summaryChevron">▲</div>
+    </div>
+    <div class="summary-body" id="summaryBody">
+      <div class="summary-impact">
+        <div class="summary-impact-num" id="summaryImpactNum">—</div>
+        <div class="summary-impact-label">hours your plan could save you</div>
+        <div class="summary-impact-caption">one-time total across every task with a real estimate — not a weekly or monthly rate</div>
+      </div>
+      <div class="summary-wins-box">
+        <div class="summary-wins-label">🎯 Where to start</div>
+        <ul class="summary-wins-list" id="summaryWinsList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-card" id="execCard">
+    <div class="mini-card-top" onclick="toggleMiniCard('execCard')">
+      <div class="mini-card-title">Executive Summary</div>
+      <div class="mini-card-chevron">▲</div>
+    </div>
+    <div class="mini-card-body">
+      <div class="mini-row" id="execPainRow">
+        <div class="mini-row-label">The Pain</div>
+        <div class="mini-row-value" id="execPainVal"></div>
+      </div>
+      <div class="mini-row" id="execOutcomeRow">
+        <div class="mini-row-label">The Outcome</div>
+        <div class="mini-row-value" id="execOutcomeVal"></div>
+      </div>
+      <div class="mini-row" id="execFocusRow">
+        <div class="mini-row-label">Primary Focus</div>
+        <div class="mini-row-value" id="execFocusVal"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mini-card" id="stackCard">
+    <div class="mini-card-top" onclick="toggleMiniCard('stackCard')">
+      <div class="mini-card-title">Your Tech Stack</div>
+      <div class="mini-card-chevron">▲</div>
+    </div>
+    <div class="mini-card-body">
+      <div class="stack-list" id="stackList"></div>
+    </div>
+  </div>
+
+  <div class="mini-card" id="toolsCard">
+    <div class="mini-card-top" onclick="toggleMiniCard('toolsCard')">
+      <div class="mini-card-title">Recommended Solutions</div>
+      <div class="mini-card-chevron">▲</div>
+    </div>
+    <div class="mini-card-body">
+      <div class="tools-grid" id="toolsGrid"></div>
+    </div>
+  </div>
+
+  <div class="mini-card" id="financialCard">
+    <div class="mini-card-top" onclick="toggleMiniCard('financialCard')">
+      <div class="mini-card-title">Financial Impact</div>
+      <div class="mini-card-chevron">▲</div>
+    </div>
+    <div class="mini-card-body">
+      <div class="financial-grid" id="financialGrid"></div>
+    </div>
+  </div>
+
+  <div class="dashboard-card" id="dashboardCard">
+    <div class="dashboard-top" onclick="toggleDashboardCollapse()">
+      <div class="dashboard-title">Your climb 🏔️</div>
+      <div style="display:flex;align-items:center;gap:0.6rem;">
+        <div class="dashboard-pct" id="summitPct">0%</div>
+        <div class="dashboard-chevron" id="dashboardChevron">▲</div>
+      </div>
+    </div>
+    <div class="dashboard-body" id="dashboardBody">
+      <svg class="hill-svg" viewBox="0 -30 700 175" preserveAspectRatio="xMidYMid meet">
+        <path id="hillPath" d="M 25 135 C 150 135, 160 100, 260 88 C 370 76, 390 45, 500 37 C 570 31, 600 17, 665 10"
+              fill="none" stroke="var(--border)" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="25" cy="135" r="6" fill="var(--white)" stroke="var(--border)" stroke-width="3"/>
+        <circle cx="260" cy="88" r="6" fill="var(--white)" stroke="var(--border)" stroke-width="3"/>
+        <circle cx="500" cy="37" r="6" fill="var(--white)" stroke="var(--border)" stroke-width="3"/>
+        <circle cx="665" cy="10" r="6" fill="var(--white)" stroke="var(--border)" stroke-width="3"/>
+        <g id="climberMarker">
+          <circle r="10" fill="var(--teal)"/>
+          <text x="0" y="4" text-anchor="middle" font-size="12">🥾</text>
+        </g>
+      </svg>
+      <div class="chapter-legend" id="chapterLegend"></div>
+    </div>
+  </div>
+
+  <!-- TOP CAPTURE ROW — Add a Task + Drop a Thought, side by side, above
+       the fold. Fix for the old layout, where these were far apart. -->
+  <div class="top-capture-grid">
+    <div class="chat-card" id="addTaskCard">
+      <div class="chat-title">Add a task</div>
+      <div class="chat-sub">Adds straight to the live plan below — no code, no upload, shows up immediately. Pick when it's due; tags are optional and just for filtering later.</div>
+      <div class="add-task-grid">
+        <input id="newTaskText" type="text" placeholder="What needs to happen?" />
+        <select id="newTaskWhen">
+          <option value="Today">Today</option>
+          <option value="This Week" selected>This Week</option>
+          <option value="Next Week">Next Week</option>
+          <option value="Future">Future</option>
+        </select>
+        <div class="add-task-row2">
+          <input id="newTaskTags" type="text" placeholder="Tags (optional, comma separated)" style="flex:1;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;" />
+          <button id="newTaskAdd" onclick="addNewTask()">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-card" id="dropThoughtCard">
+      <div class="chat-title">Drop a thought</div>
+      <div class="chat-sub">
+        For anything that doesn't have a home yet — type it or talk it out. Visible to the whole
+        team the moment you add it.
+      </div>
+      <div class="chat-input-row">
+        <select id="thoughtAuthor"></select>
+        <input id="thoughtInput" type="text" placeholder="Type it, or hit the mic..." />
+        <button id="thoughtMic" type="button" title="Tap to talk instead of typing" style="display:none;">🎤</button>
+        <button id="thoughtAdd">Add</button>
+      </div>
+      <div id="thoughtQueueBanner"></div>
+      <div id="thoughtList" class="thought-list"></div>
+      <div class="privacy-note">
+        Dropped thoughts are visible live to the whole team — unlike "Talk it through"
+        below, this one isn't private to your browser.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label tight">Filter by tag</div>
+  <div class="tag-filter-bar" id="tagFilterBar"></div>
+
+  <div class="section-label" id="section-label-today">Today</div>
+  <div id="section-today"></div>
+
+  <div class="section-label">This week</div>
+  <div id="section-this-week"></div>
+
+  <div class="section-label">Next week</div>
+  <div id="section-next-week"></div>
+
+  <div class="section-label">Future</div>
+  <div id="section-future"></div>
+
+  <div class="completed-section" id="completedSection" style="display:none;">
+    <div class="completed-header" onclick="toggleCompletedCollapse()">
+      <span>✓ Completed</span>
+      <span id="completedCount"></span>
+    </div>
+    <div id="completedList" style="display:none;"></div>
+  </div>
+
+  <div class="chat-card">
+    <div class="chat-title">Talk it through</div>
+    <div class="chat-sub">
+      Tell us what's going on — an update, a story, something coming up.
+      We'll help turn it into something usable.
+    </div>
+    <div id="chatLog" class="chat-log"></div>
+    <div class="chat-input-row">
+      <input id="chatInput" type="text" placeholder="Type here..." />
+      <button id="chatMic" type="button" title="Tap to talk instead of typing" style="display:none;">🎤</button>
+      <button id="chatSend">Send</button>
+    </div>
+    <div class="chat-actions">
+      <button id="chatDownload">Download conversation</button>
+      <button id="chatEmail">Email this to your advisor</button>
+    </div>
+    <div class="privacy-note">
+      Anything typed or said here goes to Claude (an AI made by Anthropic) to help turn it into
+      usable content — nothing more. It's not used to train AI models, sold, or shared outside
+      this project. What's typed is saved in this browser only; it doesn't sync to our team
+      automatically — use "Email this to your advisor" any time you want us to actually see it.
+    </div>
+  </div>
+
+  <div class="future-heading">
+    <div class="section-label">Bigger ideas — for when you're ready</div>
+    <div class="future-sub">
+      Nothing below this line is happening yet, and nothing moves forward until you say so.
+      These are things we're excited about for later — tap any of them open just to see what
+      we mean, no pressure at all.
+    </div>
+  </div>
+  <div id="ideasList"></div>
+
+  <div class="ways-help-section">
+    <div class="section-label">Ways we can keep helping</div>
+    <div class="future-sub">If any of this sounds useful down the road, just ask — no pressure, no pitch.</div>
+    <div class="ways-grid" id="waysGrid"></div>
+  </div>
+
+  <div class="cta-card">
+    <div class="cta-title">Questions on any of these steps?</div>
+    <div class="cta-body">Book time with your advisor to walk through progress, priorities, or anything that's unclear.</div>
+    <a class="cta-btn" id="ctaLink" href="#" target="_blank">Book a check-in →</a>
+  </div>
+
+  <div class="wins-card" id="winsCard" style="display:none;">
+    <div class="wins-title">🌱 Wins so far</div>
+    <div class="wins-grid" id="winsGrid"></div>
+  </div>
+
+  <div class="powered-by"><a href="./sow.html" target="_blank">View your service agreement →</a> &nbsp;·&nbsp; Powered by <a href="https://www.cwmsd.com/ai-consult-elevatemy.ai" target="_blank">elevatemy.ai</a></div>
+</div>
+
+<script>
+/* =========================================================================
+   EDIT BELOW THIS LINE TO CUSTOMIZE FOR A NEW CLIENT
+   ========================================================================= */
+
+const CLIENT = {
+  slug: 'REPLACE-WITH-CLIENT-SLUG',
+  clientName: 'Client Name',
+  businessName: 'Business Name',
+  subhead: "One or two sentences on where you see the fastest win for them.",
+  bookingUrl: 'https://meetings.hubspot.com/matt-barnhart/eai-meeting'
+};
+
+const ADVISOR_EMAIL = 'CHANGE-ME@elevatemy.ai'; // <-- EDIT THIS
+
+// Who tasks/thoughts can be assigned to on this client's plan.
+const ASSIGNEES = ['Unassigned', 'Tracy', 'Matt', CLIENT.clientName];
+
+function assigneeColor(name){
+  switch(name){
+    case 'Tracy': return 'var(--teal)';
+    case 'Matt': return 'var(--amber)';
+    default: return name === 'Unassigned' ? 'var(--border)' : 'var(--navy)';
+  }
+}
+
+// EDIT THESE AS THINGS CHANGE — this powers the "Wins so far" section.
+// Leave any value as null if you don't have a real number yet; that stat
+// just won't show up until you fill it in. Never show a fake number here.
+const STATS = {
+  startDate: '',
+  subscribersStart: null,
+  subscribersNow: null,
+  openRateStart: null,
+  openRateNow: null
+};
+
+// EXEC_SUMMARY — optional. Leave any field blank to hide that row; leave
+// all three blank and the whole card hides itself.
+const EXEC_SUMMARY = {
+  pain: "",
+  outcome: "",
+  primaryFocus: ""
+};
+
+// TECH_STACK — an audit of what the client already uses, category by
+// category. weSuggest and why are both optional. Leave the array empty
+// to hide the card.
+const TECH_STACK = [
+  // { category: 'Website', youHave: '...', weSuggest: '', why: "..." },
+];
+
+// TOOLS — the "Recommended Solutions" grid. Leave empty to hide the section.
+const TOOLS = [];
+
+// FINANCIAL_IMPACT — optional. Only fill in numbers you and the client
+// have actually agreed on. Never fabricate a dollar figure.
+const FINANCIAL_IMPACT = {
+  weeklyHoursReturned: null,
+  monthlyToolCost: null,
+  monthlyNetValue: null
+};
+
+// WAYS_WE_HELP — a menu of deeper engagement options.
+const WAYS_WE_HELP = [
+  { icon: '🧩', color: 'var(--teal)', title: "Redesigning a process end-to-end", description: "When a whole workflow needs rethinking, not just one step.", priceRange: "$3,000-$5,000" },
+  { icon: '⚙️', color: 'var(--amber)', title: "Building automations", description: "Connecting the tools you already use so less falls on you manually.", priceRange: "$1,000-$3,000" },
+  { icon: '📚', color: 'var(--navy-light)', title: "Training a system on your own content", description: "A custom assistant that actually knows your business.", priceRange: "~$3,000" },
+  { icon: '🤝', color: 'var(--emerald)', title: "Ongoing hands-on support", description: "Regular working sessions until this becomes second nature.", priceRange: "$3,000-$5,000" },
+  { icon: '🚀', color: 'var(--teal)', title: "Full implementation", description: "We build and run it end-to-end, tailored to how you work.", priceRange: "$5,000-$10,000" }
+];
+
+// FUTURE_IDEAS — things the client has seen and gotten excited about,
+// but hasn't committed to. No checkbox, no progress tracking. Move an
+// idea into the real Tasks system (as a "Future" task) only once
+// they've actually agreed to it.
+const FUTURE_IDEAS = [
+  // { title: "...", blurb: "...", details: "...", previewItems: ["...", "..."] },
+];
+
+/* =========================================================================
+   NO NEED TO EDIT BELOW THIS LINE
+   ========================================================================= */
+
+const WHEN_OPTIONS = ['Today', 'This Week', 'Next Week', 'Future'];
+const WHEN_SECTION_ID = { 'Today': 'section-today', 'This Week': 'section-this-week', 'Next Week': 'section-next-week', 'Future': 'section-future' };
+
+let confettiInstance = null;
+function getConfettiInstance(){
+  if(confettiInstance) return confettiInstance;
+  if(typeof confetti !== 'function' || typeof confetti.create !== 'function') return null;
+  try{
+    const canvasEl = document.createElement('canvas');
+    canvasEl.style.position = 'fixed';
+    canvasEl.style.inset = '0';
+    canvasEl.style.width = '100%';
+    canvasEl.style.height = '100%';
+    canvasEl.style.pointerEvents = 'none';
+    canvasEl.style.zIndex = '9999';
+    document.body.appendChild(canvasEl);
+    confettiInstance = confetti.create(canvasEl, { resize: true, useWorker: false });
+  }catch(e){ return null; }
+  return confettiInstance;
+}
+function flashIncomplete(elementId){
+  setTimeout(() => {
+    const el = document.getElementById(elementId);
+    if(!el) return;
+    el.classList.add('shake-incomplete');
+    setTimeout(() => el.classList.remove('shake-incomplete'), 500);
+  }, 30);
+}
+function celebrate(intensity){
+  intensity = intensity || 1;
+  const fire = getConfettiInstance();
+  if(!fire) return;
+  try{
+    fire({
+      particleCount: Math.round(60 * intensity),
+      spread: 65,
+      startVelocity: 35,
+      origin: { y: 0.7 },
+      colors: ['#1B3A6B', '#00A99D', '#C4773B', '#E1F5F4']
+    });
+  }catch(e){ /* ignore */ }
+}
+
+let ideaExpanded = {};
+function toggleIdea(i){ ideaExpanded[i] = !ideaExpanded[i]; renderIdeas(); }
+
+function ideaCountKey(){ return 'elevate-idea-count-' + CLIENT.slug; }
+function getIdeaCount(){
+  try{ return parseInt(localStorage.getItem(ideaCountKey()) || '0', 10); }catch(e){ return 0; }
+}
+function incrementIdeaCount(){
+  try{
+    const next = getIdeaCount() + 1;
+    localStorage.setItem(ideaCountKey(), String(next));
+    return next;
+  }catch(e){ return getIdeaCount(); }
+}
+
+function daysSince(dateStr){
+  if(!dateStr) return null;
+  const start = new Date(dateStr);
+  if(isNaN(start.getTime())) return null;
+  const diffMs = Date.now() - start.getTime();
+  return Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+}
+
+function renderWins(){
+  const card = document.getElementById('winsCard');
+  const grid = document.getElementById('winsGrid');
+  if(!card || !grid) return;
+  const stats = [];
+  const days = daysSince(STATS.startDate);
+  if(days !== null) stats.push({ num: days, label: days === 1 ? 'day working together' : 'days working together' });
+  if(STATS.subscribersStart !== null && STATS.subscribersNow !== null){
+    const delta = STATS.subscribersNow - STATS.subscribersStart;
+    const sign = delta > 0 ? '+' : '';
+    stats.push({ num: `${sign}${delta.toLocaleString()}`, label: `subscribers since we started (${STATS.subscribersStart.toLocaleString()} → ${STATS.subscribersNow.toLocaleString()})` });
+  } else if(STATS.subscribersStart !== null){
+    stats.push({ num: STATS.subscribersStart.toLocaleString(), label: 'subscribers when we started' });
+  }
+  if(STATS.openRateStart !== null && STATS.openRateNow !== null){
+    stats.push({ num: STATS.openRateNow, label: `open rate now (started at ${STATS.openRateStart})` });
+  }
+  const ideaCount = getIdeaCount();
+  if(ideaCount > 0) stats.push({ num: ideaCount, label: ideaCount === 1 ? 'idea shared with us via chat' : 'ideas shared with us via chat' });
+  if(stats.length === 0){ card.style.display = 'none'; return; }
+  card.style.display = 'block';
+  grid.innerHTML = stats.map(s => `<div class="wins-stat"><div class="wins-num">${s.num}</div><div class="wins-label">${s.label}</div></div>`).join('');
+}
+
+/* =========================================================================
+   TASK ENGINE — single flat TASKS array, keyed by real Airtable record
+   id. Organization is WHEN (Today/This Week/Next Week/Future) + TAGS
+   (optional, filter-only, never a place a task has to "live"). A task's
+   own checklist ("sub-steps") is the ONE kept form of nesting — always
+   attached to the specific task you're looking at, never a dropdown of
+   everything. Airtable is the only source of truth; nothing is cached
+   in localStorage.
+   ========================================================================= */
+let TASKS = [];       // top-level tasks (no parentId), each with .subtasks[]
+let ALL_TASKS = [];   // full flat list from Airtable, refreshed on every load/add
+let activeTagFilters = [];
+let stepExpanded = {};
+let completedCollapsed = true;
+let notesSaveTimeouts = {};
+
+async function patchTask(id, fields){
+  if(!id) return;
+  try{
+    await fetch('/api/tasks', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(Object.assign({ id }, fields))
+    });
+  }catch(e){
+    console.error('Could not save that change to Airtable -- it will re-sync next time the page loads:', e);
+  }
+}
+
+function showTaskLoadError(show){
+  let banner = document.getElementById('taskLoadError');
+  if(show){
+    if(!banner){
+      banner = document.createElement('div');
+      banner.id = 'taskLoadError';
+      banner.style.cssText = 'background:#FAEEDA;border:1px solid var(--amber);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1rem;font-size:13px;color:#7a4d15;';
+      banner.innerHTML = 'Couldn\'t load the latest tasks from Airtable just now -- showing what last loaded successfully. <a href="javascript:location.reload()" style="color:#7a4d15;text-decoration:underline;font-weight:600;">Reload the page</a> to try again.';
+      const wrap = document.querySelector('.wrap');
+      if(wrap) wrap.insertBefore(banner, wrap.firstChild);
+    }
+  } else if(banner){
+    banner.remove();
+  }
+}
+
+async function fetchTasksWithRetry(attempts){
+  attempts = attempts || 3;
+  for(let i = 0; i < attempts; i++){
+    try{
+      const res = await fetch('/api/tasks');
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if(!Array.isArray(data.tasks)) throw new Error('Unexpected response shape');
+      return data.tasks;
+    }catch(e){
+      console.error('Task load attempt ' + (i + 1) + ' of ' + attempts + ' failed:', e);
+      if(i < attempts - 1) await new Promise(r => setTimeout(r, 600 * (i + 1)));
+    }
+  }
+  return null;
+}
+
+function toStepShape(rec, subtaskRecs){
+  return {
+    _id: rec.id,
+    title: rec.task,
+    when: rec.when || 'This Week',
+    tags: Array.isArray(rec.tags) ? rec.tags : [],
+    aiOrHuman: rec.aiOrHuman || '',
+    timeNow: rec.timeNow,
+    timeWithAI: rec.timeWithAI,
+    youGive: rec.youGive,
+    youGetBack: rec.youGetBack,
+    hoursSaved: rec.hoursSaved,
+    description: rec.description || '',
+    whyItMatters: rec.whyItMatters || '',
+    resources: [],
+    notes: rec.notes || '',
+    done: !!rec.done,
+    assignee: rec.assignee || '',
+    order: rec.order || 0,
+    subtasks: subtaskRecs.map(s => ({ _id: s.id, text: s.task, done: !!s.done, order: s.order || 0 }))
+             .sort((a,b) => a.order - b.order)
+  };
+}
+
+async function loadTasksFromAirtable(){
+  const tasks = await fetchTasksWithRetry();
+  if(tasks === null){ showTaskLoadError(true); return; }
+  showTaskLoadError(false);
+  ALL_TASKS = tasks;
+  const children = (parentId) => tasks.filter(t => t.parentId === parentId);
+  const topLevel = tasks.filter(t => !t.parentId).sort((a,b) => (a.order||0) - (b.order||0));
+  TASKS = topLevel.map(rec => toStepShape(rec, children(rec.id)));
+}
+
+function findTask(id){ return TASKS.find(t => t._id === id); }
+
+function allTags(){
+  const set = new Set();
+  TASKS.forEach(t => t.tags.forEach(tag => { if(tag) set.add(tag); }));
+  return Array.from(set).sort();
+}
+
+function toggleTagFilter(tag){
+  const idx = activeTagFilters.indexOf(tag);
+  if(idx >= 0) activeTagFilters.splice(idx, 1); else activeTagFilters.push(tag);
+  render();
+}
+function clearTagFilters(){ activeTagFilters = []; render(); }
+
+function renderTagFilterBar(){
+  const bar = document.getElementById('tagFilterBar');
+  if(!bar) return;
+  const tags = allTags();
+  if(!tags.length){ bar.parentElement && (bar.previousElementSibling.style.display = 'none'); bar.style.display = 'none'; return; }
+  bar.previousElementSibling.style.display = 'block';
+  bar.style.display = 'flex';
+  bar.innerHTML = tags.map(tag => `<button class="tag-chip ${activeTagFilters.includes(tag) ? 'active' : ''}" onclick="toggleTagFilter(${JSON.stringify(tag)})">${escapeHtml(tag)}</button>`).join('') +
+    (activeTagFilters.length ? `<button class="tag-chip tag-chip-clear" onclick="clearTagFilters()">Clear ✕</button>` : '');
+}
+
+function visibleTasks(){
+  if(!activeTagFilters.length) return TASKS;
+  return TASKS.filter(t => t.tags.some(tag => activeTagFilters.includes(tag)));
+}
+
+function escapeHtml(str){
+  return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function assigneeSelectHtml(currentValue, onChangeCall){
+  const current = currentValue || 'Unassigned';
+  return `<select class="assignee-select" style="border-left-color:${assigneeColor(current)};" onclick="event.stopPropagation();" onchange="event.stopPropagation(); ${onChangeCall}">
+    ${ASSIGNEES.map(name => `<option value="${name}" ${current === name ? 'selected' : ''}>${name === 'Unassigned' ? 'Assign to...' : name}</option>`).join('')}
+  </select>`;
+}
+
+function timeCompareHtml(t){
+  if(typeof t.timeNow !== 'number' || typeof t.timeWithAI !== 'number' || t.timeNow <= 0) return '';
+  const aiPct = Math.max(4, Math.min(100, (t.timeWithAI / t.timeNow) * 100));
+  const fmt = (n) => (n % 1 === 0 ? n : n.toFixed(1));
+  return `
+  <div class="time-compare">
+    <div class="time-row"><span>Now</span><span>${fmt(t.timeNow)} hrs</span></div>
+    <div class="time-track"><div class="time-fill now" style="width:100%;"></div></div>
+    <div class="time-row ai"><span>With AI assist</span><span>${fmt(t.timeWithAI)} hrs</span></div>
+    <div class="time-track"><div class="time-fill ai" style="width:${aiPct}%;"></div></div>
+  </div>`;
+}
+
+function toggleExpand(id){ stepExpanded[id] = !stepExpanded[id]; render(); }
+
+function toggleTaskDone(id){
+  const t = findTask(id);
+  if(!t) return;
+  const wasNotDone = !t.done;
+  if(wasNotDone && t.subtasks.length && !t.subtasks.every(s => s.done)){
+    stepExpanded[id] = true;
+    render();
+    flashIncomplete('task-' + id);
+    return;
+  }
+  t.done = !t.done;
+  patchTask(id, { done: t.done });
+  render();
+  renderDashboard();
+  renderSummary();
+  if(wasNotDone && t.done) celebrate();
+}
+
+function toggleSubtask(parentId, subId){
+  const t = findTask(parentId);
+  if(!t) return;
+  const s = t.subtasks.find(x => x._id === subId);
+  if(!s) return;
+  const wasNotDone = !s.done;
+  s.done = !s.done;
+  patchTask(subId, { done: s.done });
+  render();
+  if(wasNotDone && s.done) celebrate(0.5);
+}
+
+function setTaskAssignee(id, value){
+  const t = findTask(id);
+  if(!t) return;
+  t.assignee = value === 'Unassigned' ? '' : value;
+  patchTask(id, { assignee: t.assignee });
+  render();
+}
+
+function updateTaskNote(id, value){
+  const t = findTask(id);
+  if(!t) return;
+  t.notes = value;
+  clearTimeout(notesSaveTimeouts[id]);
+  notesSaveTimeouts[id] = setTimeout(() => patchTask(id, { notes: value }), 400);
+}
+
+async function addSubtask(parentId){
+  const input = document.getElementById('substep-input-' + parentId);
+  if(!input) return;
+  const text = input.value.trim();
+  if(!text) return;
+  const siblings = ALL_TASKS.filter(t => t.parentId === parentId);
+  const maxOrder = siblings.reduce((max, t) => Math.max(max, t.order || 0), 0);
+  input.disabled = true;
+  try{
+    await fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ task: text, parentId, order: maxOrder + 10, done: false })
+    });
+    await loadTasksFromAirtable();
+    stepExpanded[parentId] = true;
+    render();
+  }catch(e){
+    alert('Could not add that step -- check your connection and try again.');
+  }
+  input.disabled = false;
+}
+
+async function addNewTask(){
+  const textInput = document.getElementById('newTaskText');
+  const whenSelect = document.getElementById('newTaskWhen');
+  const tagsInput = document.getElementById('newTaskTags');
+  const text = textInput.value.trim();
+  if(!text) return;
+  const addBtn = document.getElementById('newTaskAdd');
+  addBtn.disabled = true;
+  try{
+    const topLevelSiblings = ALL_TASKS.filter(t => !t.parentId);
+    const maxOrder = topLevelSiblings.reduce((max, t) => Math.max(max, t.order || 0), 0);
+    const tags = tagsInput.value.split(',').map(s => s.trim()).filter(Boolean);
+    const body = { task: text, when: whenSelect.value, tags, order: maxOrder + 10, done: false };
+    await fetch('/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    textInput.value = '';
+    tagsInput.value = '';
+    await loadTasksFromAirtable();
+    render();
+    renderDashboard();
+    renderSummary();
+  }catch(e){
+    alert('Could not add that task -- check your connection and try again.');
+  }
+  addBtn.disabled = false;
+}
+
+function taskCardHtml(t){
+  const expanded = !!stepExpanded[t._id];
+  return `
+    <div class="step ${t.done ? 'done' : ''} ${expanded ? 'expanded' : ''}" id="task-${t._id}">
+      <div class="step-head" onclick="toggleExpand('${t._id}')">
+        <button class="step-check" onclick="event.stopPropagation(); toggleTaskDone('${t._id}');">${t.done ? '✓' : ''}</button>
+        <div class="step-body-wrap">
+          <div class="step-title-row">
+            <div class="step-title">${escapeHtml(t.title)}</div>
+            ${t.aiOrHuman ? `<span class="tag ${t.aiOrHuman === 'ai' ? 'tag-ai' : 'tag-human'}">${t.aiOrHuman === 'ai' ? 'AI-assisted' : 'Human-led'}</span>` : ''}
+            ${assigneeSelectHtml(t.assignee, `setTaskAssignee('${t._id}', this.value)`)}
+          </div>
+          ${t.tags.length ? `<div class="task-tags">${t.tags.map(tag => `<span class="task-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
+          ${t.youGive || t.youGetBack || typeof t.timeNow === 'number' ? `
+          <div class="value-trade">
+            ${t.youGive ? `<span class="value-chip value-give">⏱ You give: ${escapeHtml(t.youGive)}</span>` : ''}
+            ${timeCompareHtml(t) || (t.youGetBack ? `<span class="value-chip value-get">🎁 You get back: ${escapeHtml(t.youGetBack)}</span>` : '')}
+          </div>` : ''}
+          ${t.description ? `<div class="step-desc">${escapeHtml(t.description)}</div>` : ''}
+        </div>
+        <div class="step-toggle-icon">▼</div>
+      </div>
+      <div class="step-detail">
+        ${t.whyItMatters ? `
+        <div class="detail-block">
+          <div class="detail-label">Why this matters</div>
+          <div class="detail-body">${escapeHtml(t.whyItMatters)}</div>
+        </div>` : ''}
+        <div class="detail-block">
+          <div class="detail-label">Steps</div>
+          ${t.subtasks.length ? `<ul class="action-list">${t.subtasks.map(s => `<li class="action-item ${s.done ? 'sub-done' : ''}" onclick="event.stopPropagation(); toggleSubtask('${t._id}', '${s._id}');"><span class="sub-check">${s.done ? '✓' : ''}</span><span class="sub-text">${escapeHtml(s.text)}</span></li>`).join('')}</ul>` : ''}
+          <div class="add-substep-row" onclick="event.stopPropagation();">
+            <input type="text" id="substep-input-${t._id}" placeholder="Add a step..." onkeydown="if(event.key==='Enter'){event.preventDefault(); addSubtask('${t._id}');}" />
+            <button onclick="addSubtask('${t._id}');">+ Add</button>
+          </div>
+        </div>
+        <div class="detail-block">
+          <div class="detail-label">Notes — status, blockers, anything to flag</div>
+          <textarea class="notes-input" placeholder="e.g. Waiting on their reply..." onclick="event.stopPropagation();" oninput="updateTaskNote('${t._id}', this.value)">${escapeHtml(t.notes)}</textarea>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleCompletedCollapse(){
+  completedCollapsed = !completedCollapsed;
+  const list = document.getElementById('completedList');
+  if(list) list.style.display = completedCollapsed ? 'none' : 'block';
+}
+
+function render(){
+  const params = getParams();
+  const displayName = params.name || CLIENT.clientName;
+  document.getElementById('heroTitle').textContent = displayName ? `Here's your plan, ${displayName}.` : "Here's your plan.";
+  document.getElementById('heroSub').textContent = CLIENT.subhead + (CLIENT.businessName ? ` — ${CLIENT.businessName}` : '');
+  document.getElementById('ctaLink').href = CLIENT.bookingUrl;
+
+  const vis = visibleTasks();
+
+  WHEN_OPTIONS.forEach(when => {
+    const el = document.getElementById(WHEN_SECTION_ID[when]);
+    if(!el) return;
+    const items = vis.filter(t => t.when === when && !t.done);
+    el.innerHTML = items.length ? items.map(t => taskCardHtml(t)).join('') : `<div class="empty-section-note">Nothing here${activeTagFilters.length ? ' for this tag' : ' yet'}.</div>`;
+  });
+
+  const doneItems = vis.filter(t => t.done);
+  const completedSection = document.getElementById('completedSection');
+  const completedList = document.getElementById('completedList');
+  if(doneItems.length > 0){
+    completedSection.style.display = 'block';
+    document.getElementById('completedCount').textContent = `(${doneItems.length})`;
+    completedList.innerHTML = doneItems.map(t => taskCardHtml(t)).join('');
+    completedList.style.display = completedCollapsed ? 'none' : 'block';
+  } else {
+    completedSection.style.display = 'none';
+  }
+
+  renderTagFilterBar();
+}
+
+/* =========================================================================
+   HILL-CLIMB DASHBOARD — chapters now match the real When buckets 1:1.
+   ========================================================================= */
+function getChapters(){
+  return WHEN_OPTIONS.map(when => {
+    const items = TASKS.filter(t => t.when === when);
+    return { label: when, done: items.filter(t => t.done).length, total: items.length };
+  });
+}
+
+function dashboardCollapseKey(){ return 'elevate-dashboard-collapsed-' + CLIENT.slug; }
+function toggleDashboardCollapse(){
+  const card = document.getElementById('dashboardCard');
+  if(!card) return;
+  const nowCollapsed = !card.classList.contains('collapsed');
+  card.classList.toggle('collapsed', nowCollapsed);
+  try{ localStorage.setItem(dashboardCollapseKey(), nowCollapsed ? '1' : '0'); }catch(e){}
+}
+function applySavedDashboardCollapseState(){
+  const card = document.getElementById('dashboardCard');
+  if(!card) return;
+  let saved = null;
+  try{ saved = localStorage.getItem(dashboardCollapseKey()); }catch(e){}
+  if(saved === '1') card.classList.add('collapsed');
+}
+
+function renderDashboard(){
+  const chapters = getChapters();
+  const totalDone = chapters.reduce((sum, c) => sum + c.done, 0);
+  const totalAll = chapters.reduce((sum, c) => sum + c.total, 0);
+  const pct = totalAll ? (totalDone / totalAll) : 0;
+
+  const pctEl = document.getElementById('summitPct');
+  if(pctEl) pctEl.textContent = Math.round(pct * 100) + '%';
+
+  const path = document.getElementById('hillPath');
+  const marker = document.getElementById('climberMarker');
+  if(path && marker){
+    try{
+      const len = path.getTotalLength();
+      const pt = path.getPointAtLength(len * pct);
+      marker.setAttribute('transform', `translate(${pt.x}, ${pt.y})`);
+    }catch(e){ /* SVG not ready yet */ }
+  }
+
+  const legend = document.getElementById('chapterLegend');
+  if(legend){
+    let currentIdx = chapters.findIndex(c => c.total > 0 && c.done < c.total);
+    if(currentIdx === -1) currentIdx = chapters.length - 1;
+    legend.innerHTML = chapters.map((c, i) => `
+      <div class="chapter-item ${i === currentIdx ? 'current' : ''} ${c.total > 0 && c.done === c.total ? 'chapter-done' : ''}">
+        <div class="chapter-name">${c.label}</div>
+        <div class="chapter-frac">${c.done}/${c.total}</div>
+      </div>
+    `).join('');
+  }
+}
+
+/* =========================================================================
+   QUICK SUMMARY PANEL
+   ========================================================================= */
+function getTotalPotentialHours(){
+  return TASKS.reduce((sum, t) => sum + (typeof t.hoursSaved === 'number' ? t.hoursSaved : 0), 0);
+}
+function formatHours(n){
+  if(n === 0) return null;
+  return (Math.round(n * 10) / 10).toString().replace(/\.0$/, '');
+}
+function summaryCollapseKey(){ return 'elevate-summary-collapsed-' + CLIENT.slug; }
+function toggleSummaryCollapse(){
+  const card = document.getElementById('summaryCard');
+  if(!card) return;
+  const nowCollapsed = !card.classList.contains('collapsed');
+  card.classList.toggle('collapsed', nowCollapsed);
+  try{ localStorage.setItem(summaryCollapseKey(), nowCollapsed ? '1' : '0'); }catch(e){}
+}
+function applySavedSummaryCollapseState(){
+  const card = document.getElementById('summaryCard');
+  if(!card) return;
+  let saved = null;
+  try{ saved = localStorage.getItem(summaryCollapseKey()); }catch(e){}
+  if(saved === '1') card.classList.add('collapsed');
+}
+function renderSummary(){
+  const totalHours = getTotalPotentialHours();
+  const formatted = formatHours(totalHours);
+  const impactEl = document.getElementById('summaryImpactNum');
+  const impactWrap = impactEl ? impactEl.closest('.summary-impact') : null;
+  if(impactEl){
+    if(formatted){
+      impactEl.textContent = formatted + (totalHours === 1 ? ' hour' : ' hours');
+      if(impactWrap) impactWrap.style.display = 'block';
+    } else if(impactWrap){
+      impactWrap.style.display = 'none';
+    }
+  }
+  const winsList = document.getElementById('summaryWinsList');
+  if(winsList){
+    const notDone = TASKS.filter(t => !t.done);
+    const startWith = notDone.filter(t => t.when === 'Today').length ? notDone.filter(t => t.when === 'Today') : notDone.filter(t => t.when === 'This Week');
+    winsList.innerHTML = startWith.slice(0, 3).map(t => `<li>${escapeHtml(t.title)}</li>`).join('');
+  }
+}
+
+function toggleMiniCard(id){
+  const card = document.getElementById(id);
+  if(!card) return;
+  card.classList.toggle('expanded');
+}
+function renderExecSummary(){
+  const rows = [
+    { key: 'pain', elId: 'execPainRow', valId: 'execPainVal' },
+    { key: 'outcome', elId: 'execOutcomeRow', valId: 'execOutcomeVal' },
+    { key: 'primaryFocus', elId: 'execFocusRow', valId: 'execFocusVal' }
+  ];
+  let anyFilled = false;
+  rows.forEach(r => {
+    const val = EXEC_SUMMARY[r.key];
+    const rowEl = document.getElementById(r.elId);
+    if(val){
+      document.getElementById(r.valId).textContent = val;
+      if(rowEl) rowEl.style.display = 'flex';
+      anyFilled = true;
+    } else if(rowEl){
+      rowEl.style.display = 'none';
+    }
+  });
+  const card = document.getElementById('execCard');
+  if(card) card.style.display = anyFilled ? 'block' : 'none';
+}
+function renderTechStack(){
+  const card = document.getElementById('stackCard');
+  const list = document.getElementById('stackList');
+  if(!TECH_STACK || TECH_STACK.length === 0){ if(card) card.style.display = 'none'; return; }
+  if(card) card.style.display = 'block';
+  if(list){
+    list.innerHTML = TECH_STACK.map(s => `
+      <div class="stack-card">
+        <div class="stack-category">${s.category}</div>
+        <div class="stack-row"><span>You have</span><span>${s.youHave}</span></div>
+        <div class="stack-row suggest"><span>We suggest</span><span>${s.weSuggest ? s.weSuggest : 'No change needed'}</span></div>
+        ${s.why ? `<div class="stack-why">${s.why}</div>` : ''}
+      </div>
+    `).join('');
+  }
+}
+function renderTools(){
+  const card = document.getElementById('toolsCard');
+  const grid = document.getElementById('toolsGrid');
+  if(!TOOLS || TOOLS.length === 0){ if(card) card.style.display = 'none'; return; }
+  if(card) card.style.display = 'block';
+  if(grid){
+    grid.innerHTML = TOOLS.map(t => `
+      <div class="tool-card">
+        <div class="tool-name">${t.name}</div>
+        ${t.cost ? `<div class="tool-stat"><span>Cost</span><span>${t.cost}</span></div>` : ''}
+        ${t.setup ? `<div class="tool-stat"><span>Setup</span><span>${t.setup}</span></div>` : ''}
+        ${t.saves ? `<div class="tool-stat"><span>Saves</span><span>${t.saves}</span></div>` : ''}
+      </div>
+    `).join('');
+  }
+}
+function renderFinancialImpact(){
+  const stats = [];
+  if(FINANCIAL_IMPACT.weeklyHoursReturned !== null) stats.push({ num: FINANCIAL_IMPACT.weeklyHoursReturned + ' hrs', label: 'returned per week' });
+  if(FINANCIAL_IMPACT.monthlyToolCost !== null) stats.push({ num: '$' + FINANCIAL_IMPACT.monthlyToolCost, label: 'total monthly tool cost' });
+  if(FINANCIAL_IMPACT.monthlyNetValue !== null) stats.push({ num: '$' + FINANCIAL_IMPACT.monthlyNetValue, label: 'estimated monthly net value' });
+  const card = document.getElementById('financialCard');
+  const grid = document.getElementById('financialGrid');
+  if(stats.length === 0){ if(card) card.style.display = 'none'; return; }
+  if(card) card.style.display = 'block';
+  if(grid) grid.innerHTML = stats.map(s => `<div class="financial-stat"><div class="financial-num">${s.num}</div><div class="financial-label">${s.label}</div></div>`).join('');
+}
+function renderWaysHelp(){
+  const grid = document.getElementById('waysGrid');
+  if(!grid) return;
+  grid.innerHTML = WAYS_WE_HELP.map(w => `
+    <div class="way-card" style="border-left-color:${w.color || 'var(--teal)'};">
+      ${w.icon ? `<span class="way-icon">${w.icon}</span>` : ''}
+      <div class="way-title">${w.title}</div>
+      <div class="way-desc">${w.description}</div>
+      ${w.priceRange ? `<div class="way-price">${w.priceRange}</div>` : ''}
+    </div>
+  `).join('');
+}
+function renderIdeas(){
+  const list = document.getElementById('ideasList');
+  if(!list) return;
+  list.innerHTML = FUTURE_IDEAS.map((idea, i) => `
+    <div class="idea ${ideaExpanded[i] ? 'expanded' : ''}" id="idea-${i}">
+      <div class="idea-head" onclick="toggleIdea(${i})">
+        <div class="idea-plus">+</div>
+        <div>
+          <div class="idea-title">${idea.title}</div>
+          <div class="idea-blurb">${idea.blurb}</div>
+        </div>
+      </div>
+      <div class="idea-detail">
+        <div class="detail-body">${idea.details}</div>
+        <ul class="idea-preview">${(idea.previewItems || []).map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>
+    </div>
+  `).join('');
+}
+
+function getParams(){
+  const p = new URLSearchParams(window.location.search);
+  return { name: decodeURIComponent(p.get('name') || '') };
+}
+
+/* =========================================================================
+   CHAT WIDGET — "Talk it through"
+   ========================================================================= */
+let chatHistory = [];
+function renderChat(){
+  const log = document.getElementById('chatLog');
+  log.innerHTML = chatHistory.map(m => `<div class="chat-msg chat-${m.role}">${m.content}</div>`).join('');
+  log.scrollTop = log.scrollHeight;
+}
+async function sendChat(){
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  chatHistory.push({ role: 'user', content: text });
+  renderChat();
+  input.value = '';
+  incrementIdeaCount();
+  renderWins();
+  const log = document.getElementById('chatLog');
+  const thinking = document.createElement('div');
+  thinking.className = 'chat-msg chat-assistant chat-thinking';
+  thinking.textContent = 'Thinking...';
+  log.appendChild(thinking);
+  log.scrollTop = log.scrollHeight;
+  try{
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: chatHistory })
+    });
+    const data = await res.json();
+    thinking.remove();
+    if(data.error) chatHistory.push({ role: 'assistant', content: "Sorry, something went wrong: " + data.error });
+    else chatHistory.push({ role: 'assistant', content: data.reply });
+  }catch(e){
+    thinking.remove();
+    chatHistory.push({ role: 'assistant', content: "Sorry, I couldn't connect. Please try again." });
+  }
+  renderChat();
+}
+document.getElementById('chatSend').addEventListener('click', sendChat);
+document.getElementById('chatInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') sendChat(); });
+
+(function(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('chatMic');
+  if(!SpeechRecognition || !micBtn) return;
+  micBtn.style.display = 'inline-flex';
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  let listening = false;
+  micBtn.addEventListener('click', () => {
+    if(listening) return;
+    listening = true;
+    micBtn.classList.add('listening');
+    micBtn.textContent = '●';
+    try{ recognition.start(); }catch(e){}
+  });
+  recognition.addEventListener('result', (e) => {
+    const transcript = e.results[0][0].transcript;
+    const input = document.getElementById('chatInput');
+    input.value = input.value ? (input.value.trim() + ' ' + transcript) : transcript;
+    input.focus();
+  });
+  recognition.addEventListener('end', () => { listening = false; micBtn.classList.remove('listening'); micBtn.textContent = '🎤'; });
+  recognition.addEventListener('error', () => { listening = false; micBtn.classList.remove('listening'); micBtn.textContent = '🎤'; });
+})();
+
+document.getElementById('chatDownload').addEventListener('click', () => {
+  const text = chatHistory.map(m => (m.role === 'user' ? 'Client: ' : 'Assistant: ') + m.content).join('\n\n');
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'action-plan-notes.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('chatEmail').addEventListener('click', () => {
+  const text = chatHistory.map(m => (m.role === 'user' ? 'Client: ' : 'Assistant: ') + m.content).join('\n\n');
+  const subject = encodeURIComponent('Notes from your action plan');
+  const body = encodeURIComponent(text);
+  window.location.href = `mailto:${ADVISOR_EMAIL}?subject=${subject}&body=${body}`;
+});
+
+/* =========================================================================
+   DROP A THOUGHT
+   ========================================================================= */
+let thoughts = [];
+function thoughtAssigneeOptionsHtml(current){
+  return ASSIGNEES.filter(a => a !== 'Unassigned').map(a => `<option value="${a}" ${current === a ? 'selected' : ''}>${a}</option>`).join('');
+}
+function renderThoughts(){
+  const list = document.getElementById('thoughtList');
+  const banner = document.getElementById('thoughtQueueBanner');
+  if(!list) return;
+  const approvedCount = thoughts.filter(t => t.approved).length;
+  if(banner){
+    banner.innerHTML = approvedCount > 0 ? `
+      <span>${approvedCount} approved and waiting to be built into the real plan —</span>
+      <button onclick="copyThoughtQueue()" id="thoughtQueueCopyBtn">Copy queue to paste to Claude</button>
+    ` : '';
+  }
+  if(!thoughts.length){ list.innerHTML = '<div class="thought-empty">Nothing dropped yet.</div>'; return; }
+  list.innerHTML = thoughts.map(t => `
+    <div class="thought-item ${t.approved ? 'approved' : ''}">
+      <button class="thought-check ${t.approved ? 'checked' : ''}" onclick="toggleThought('${t.id}')" title="Mark approved">${t.approved ? '✓' : ''}</button>
+      <div class="thought-body">
+        <div class="thought-text">${escapeHtml(t.text)}</div>
+        <div class="thought-meta">Logged by ${escapeHtml(t.author)} · ${new Date(t.createdAt).toLocaleDateString(undefined, {month:'short', day:'numeric'})}</div>
+        <select class="thought-assignee" onchange="setThoughtAssignee('${t.id}', this.value)">${thoughtAssigneeOptionsHtml(t.assignee)}</select>
+      </div>
+      <button class="thought-remove" onclick="removeThought('${t.id}')" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+async function copyThoughtQueue(){
+  const approved = thoughts.filter(t => t.approved);
+  if(!approved.length) return;
+  const text = `Approved thoughts from ${CLIENT.clientName}'s action-plan page — ready to build into the real plan:\n\n` +
+    approved.map(t => `- [${t.assignee || 'Unassigned'}] ${t.text} (logged by ${t.author}, ${new Date(t.createdAt).toLocaleDateString(undefined, {month:'short', day:'numeric'})})`).join('\n');
+  try{
+    await navigator.clipboard.writeText(text);
+    const btn = document.getElementById('thoughtQueueCopyBtn');
+    if(btn){ const original = btn.textContent; btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = original; }, 1500); }
+  }catch(e){ alert('Could not copy automatically — you can still select and copy the approved items manually.'); }
+}
+async function loadThoughts(){
+  try{
+    const res = await fetch('/api/thoughts');
+    const data = await res.json();
+    thoughts = data.thoughts || [];
+  }catch(e){ thoughts = []; }
+  renderThoughts();
+}
+async function addThought(){
+  const input = document.getElementById('thoughtInput');
+  const authorSelect = document.getElementById('thoughtAuthor');
+  const text = input.value.trim();
+  if(!text) return;
+  const addBtn = document.getElementById('thoughtAdd');
+  addBtn.disabled = true;
+  try{
+    const res = await fetch('/api/thoughts', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ text, author: authorSelect.value })
+    });
+    const data = await res.json();
+    thoughts = data.thoughts || thoughts;
+    input.value = '';
+    renderThoughts();
+  }catch(e){ alert('Could not save that — check your connection and try again.'); }
+  addBtn.disabled = false;
+}
+async function toggleThought(id){
+  const t = thoughts.find(x => x.id === id);
+  if(!t) return;
+  t.approved = !t.approved;
+  renderThoughts();
+  try{
+    const res = await fetch('/api/thoughts', { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id, approved: t.approved }) });
+    const data = await res.json();
+    thoughts = data.thoughts || thoughts;
+    renderThoughts();
+  }catch(e){}
+}
+async function setThoughtAssignee(id, assignee){
+  const t = thoughts.find(x => x.id === id);
+  if(!t) return;
+  t.assignee = assignee;
+  try{
+    const res = await fetch('/api/thoughts', { method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id, assignee }) });
+    const data = await res.json();
+    thoughts = data.thoughts || thoughts;
+  }catch(e){}
+}
+async function removeThought(id){
+  thoughts = thoughts.filter(t => t.id !== id);
+  renderThoughts();
+  try{
+    const res = await fetch('/api/thoughts', { method: 'DELETE', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id }) });
+    const data = await res.json();
+    thoughts = data.thoughts || thoughts;
+    renderThoughts();
+  }catch(e){}
+}
+document.getElementById('thoughtAuthor').innerHTML = ASSIGNEES.filter(a => a !== 'Unassigned').map(a => `<option value="${a}">${a}</option>`).join('');
+document.getElementById('thoughtAdd').addEventListener('click', addThought);
+document.getElementById('thoughtInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') addThought(); });
+loadThoughts();
+
+(function(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('thoughtMic');
+  if(!SpeechRecognition || !micBtn) return;
+  micBtn.style.display = 'inline-flex';
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  let listening = false;
+  micBtn.addEventListener('click', () => {
+    if(listening) return;
+    listening = true;
+    micBtn.classList.add('listening');
+    micBtn.textContent = '●';
+    try{ recognition.start(); }catch(e){}
+  });
+  recognition.addEventListener('result', (e) => {
+    const transcript = e.results[0][0].transcript;
+    const input = document.getElementById('thoughtInput');
+    input.value = input.value ? (input.value.trim() + ' ' + transcript) : transcript;
+    input.focus();
+  });
+  recognition.addEventListener('end', () => { listening = false; micBtn.classList.remove('listening'); micBtn.textContent = '🎤'; });
+  recognition.addEventListener('error', () => { listening = false; micBtn.classList.remove('listening'); micBtn.textContent = '🎤'; });
+})();
+
+/* =========================================================================
+   BOOTSTRAP
+   ========================================================================= */
+applySavedSummaryCollapseState();
+renderExecSummary();
+renderTechStack();
+renderTools();
+renderFinancialImpact();
+renderWaysHelp();
+renderIdeas();
+applySavedDashboardCollapseState();
+
+(async function initTasks(){
+  await loadTasksFromAirtable();
+  render();
+  renderDashboard();
+  renderSummary();
+  renderWins();
+})();
+</script>
+</body>
+</html>
