@@ -200,6 +200,11 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
 .tag-chip.active{background:var(--teal);border-color:var(--teal);color:#fff;}
 .tag-chip-clear{color:var(--sand);border-style:dashed;}
 
+/* TAG PICKER — Add a Task's tag field. Click-to-select from a known
+   list instead of free-typing, so typos/near-duplicates never happen. */
+.tag-picker{display:flex;flex-wrap:wrap;gap:0.4rem;margin:0.1rem 0 0.2rem;}
+.tag-chip-new{border-style:dashed;color:var(--sand);}
+
 /* FUTURE IDEAS — visually distinct from active steps: no checkbox, no
    progress tracking, just something to open and read when curious. */
 .future-heading{margin:2.5rem 0 0.5rem;}
@@ -470,9 +475,9 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
           <option value="Future">Future</option>
           <option value="Idea">Someday / bigger idea</option>
         </select>
+        <div class="tag-picker" id="newTaskTagPicker"></div>
         <div class="add-task-row2">
-          <input id="newTaskTags" type="text" placeholder="Tags (optional, comma separated)" style="flex:1;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;" />
-          <button id="newTaskAdd" onclick="addNewTask()">Add</button>
+          <button id="newTaskAdd" onclick="addNewTask()" style="width:100%;">Add</button>
         </div>
       </div>
     </div>
@@ -620,6 +625,18 @@ const ADVISOR_EMAIL = 'CHANGE-ME@elevatemy.ai'; // <-- EDIT THIS
 
 // Who tasks/thoughts can be assigned to on this client's plan.
 const ASSIGNEES = ['Unassigned', 'Tracy', 'Matt', CLIENT.clientName];
+
+// TAGS — the fixed, curated list clients pick from when adding a task.
+// Set this during (or soon after) the discovery call, based on the real
+// projects/categories that came up. Deliberately NOT free-typed on the
+// page itself -- that's what stops "CRM" / "the crm" / "Crm intake" from
+// turning into 40 near-duplicate tags instead of a handful of real ones.
+// Anyone can still add a genuinely new one via "+ New tag" on the page,
+// but it always checks against this list first so near-duplicates get
+// caught before they're created.
+const TAGS = [
+  // 'CRM', 'Newsletter', 'Website', 'Onboarding'
+];
 
 function assigneeColor(name){
   switch(name){
@@ -898,6 +915,50 @@ function allTags(){
   return Array.from(set).sort();
 }
 
+// The full set of tags people can pick from: the curated TAGS list plus
+// anything already actually in use in Airtable, deduped so two different
+// casings/spacings of "the same" tag collapse into one clickable chip.
+function knownTags(){
+  const seen = new Map();
+  TAGS.forEach(tag => { if(tag) seen.set(tag.trim().toLowerCase(), tag.trim()); });
+  TASKS.forEach(t => t.tags.forEach(tag => {
+    if(!tag) return;
+    const key = tag.trim().toLowerCase();
+    if(!seen.has(key)) seen.set(key, tag.trim());
+  }));
+  return Array.from(seen.values()).sort((a, b) => a.localeCompare(b));
+}
+
+let selectedNewTaskTags = [];
+function toggleNewTaskTag(tag){
+  const idx = selectedNewTaskTags.indexOf(tag);
+  if(idx >= 0) selectedNewTaskTags.splice(idx, 1); else selectedNewTaskTags.push(tag);
+  renderNewTaskTagPicker();
+}
+function addNewTagPrompt(){
+  const raw = prompt('New tag name:');
+  if(!raw) return;
+  const trimmed = raw.trim();
+  if(!trimmed) return;
+  const existing = knownTags().find(t => t.toLowerCase() === trimmed.toLowerCase());
+  if(existing){
+    if(existing !== trimmed){
+      alert(`"${trimmed}" is basically the same as the existing tag "${existing}" -- using that one instead so this doesn't turn into two versions of the same tag.`);
+    }
+    if(!selectedNewTaskTags.includes(existing)) selectedNewTaskTags.push(existing);
+  } else {
+    selectedNewTaskTags.push(trimmed);
+  }
+  renderNewTaskTagPicker();
+}
+function renderNewTaskTagPicker(){
+  const el = document.getElementById('newTaskTagPicker');
+  if(!el) return;
+  const tags = knownTags();
+  el.innerHTML = tags.map(tag => `<button type="button" class="tag-chip ${selectedNewTaskTags.includes(tag) ? 'active' : ''}" onclick="toggleNewTaskTag(${JSON.stringify(tag)})">${escapeHtml(tag)}</button>`).join('') +
+    `<button type="button" class="tag-chip tag-chip-new" onclick="addNewTagPrompt()">+ New tag</button>`;
+}
+
 function toggleTagFilter(tag){
   const idx = activeTagFilters.indexOf(tag);
   if(idx >= 0) activeTagFilters.splice(idx, 1); else activeTagFilters.push(tag);
@@ -1053,7 +1114,6 @@ async function addSubtask(parentId){
 async function addNewTask(){
   const textInput = document.getElementById('newTaskText');
   const whenSelect = document.getElementById('newTaskWhen');
-  const tagsInput = document.getElementById('newTaskTags');
   const text = textInput.value.trim();
   if(!text) return;
   const addBtn = document.getElementById('newTaskAdd');
@@ -1061,15 +1121,14 @@ async function addNewTask(){
   try{
     const topLevelSiblings = ALL_TASKS.filter(t => !t.parentId);
     const maxOrder = topLevelSiblings.reduce((max, t) => Math.max(max, t.order || 0), 0);
-    const tags = tagsInput.value.split(',').map(s => s.trim()).filter(Boolean);
-    const body = { task: text, when: whenSelect.value, tags, order: maxOrder + 10, done: false };
+    const body = { task: text, when: whenSelect.value, tags: selectedNewTaskTags.slice(), order: maxOrder + 10, done: false };
     await fetch('/api/tasks', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
     textInput.value = '';
-    tagsInput.value = '';
+    selectedNewTaskTags = [];
     await loadTasksFromAirtable();
     render();
     renderDashboard();
@@ -1160,6 +1219,7 @@ function render(){
   renderTagFilterBar();
   renderAssigneeFilterBar();
   renderIdeasList();
+  renderNewTaskTagPicker();
 }
 
 /* =========================================================================
