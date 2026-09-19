@@ -132,6 +132,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
    the fold. If someone just wants to fire off a task or a stray idea
    without scrolling, both are right here. Stacks on mobile. */
 .top-capture-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.1rem;align-items:start;}
+.top-capture-grid > .chat-card{min-width:0;}
 @media(max-width:720px){ .top-capture-grid{grid-template-columns:1fr;} }
 
 /* CHAT WIDGET — "Talk it through" / "Add a task" / "Drop a thought" all
@@ -146,8 +147,8 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
 .chat-user{background:var(--teal);color:#fff;align-self:flex-end;border-bottom-right-radius:3px;}
 .chat-assistant{background:var(--cream);color:var(--text-dark);align-self:flex-start;border-bottom-left-radius:3px;}
 .chat-thinking{opacity:0.6;font-style:italic;}
-.chat-input-row{display:flex;gap:0.6rem;margin-bottom:0.9rem;}
-.chat-input-row input{flex:1;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;color:var(--text-dark);background:var(--white);}
+.chat-input-row{display:flex;gap:0.6rem;margin-bottom:0.9rem;flex-wrap:wrap;}
+.chat-input-row input{flex:1;min-width:120px;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;color:var(--text-dark);background:var(--white);}
 .chat-input-row input:focus{outline:2px solid var(--teal);outline-offset:1px;}
 .chat-input-row button{padding:0.7rem 1.3rem;background:var(--teal);color:#fff;border:none;border-radius:8px;font-weight:600;font-size:13.5px;cursor:pointer;}
 .chat-input-row button:hover{filter:brightness(1.08);}
@@ -216,6 +217,11 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
 .idea-preview{list-style:none;display:flex;flex-direction:column;gap:0.35rem;}
 .idea-preview li{font-size:12.5px;color:var(--text-muted);padding-left:1rem;position:relative;line-height:1.5;}
 .idea-preview li::before{content:'—';position:absolute;left:0;color:var(--teal);}
+.idea-promote-row{display:flex;gap:0.6rem;margin-top:0.9rem;padding-top:0.9rem;border-top:1px dashed var(--border);}
+.idea-promote-row select{padding:0.55rem 0.7rem;border:1px solid var(--border);border-radius:7px;font-family:var(--b);font-size:12.5px;color:var(--text-dark);background:var(--white);}
+.idea-promote-row select:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.idea-promote-row button{padding:0.55rem 0.9rem;background:var(--teal);color:#fff;border:none;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.idea-promote-row button:hover{filter:brightness(1.08);}
 
 /* WINS SO FAR — only shows stats that actually have real numbers behind
    them. Never fabricate a number to fill this out. */
@@ -324,6 +330,15 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
 .notes-input::placeholder{color:var(--sand);}
 
 .empty-section-note{font-size:12.5px;color:var(--text-muted);font-style:italic;padding:0.6rem 0.2rem 1.2rem;}
+
+/* COLLAPSIBLE WHEN-SECTIONS — Today/This Week/Next Week/Future can each
+   be folded away to cut down on scrolling, without losing what's inside;
+   state remembered per browser. */
+.when-section-header{display:flex;align-items:center;gap:0.6rem;cursor:pointer;user-select:none;margin:2.5rem 0 1rem;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--sand);}
+.when-section-count{font-family:var(--m);font-size:11px;color:var(--text-muted);text-transform:none;letter-spacing:0;font-weight:600;}
+.when-section-chevron{margin-left:auto;font-size:10px;transition:transform 0.2s;}
+.when-section.collapsed .when-section-chevron{transform:rotate(180deg);}
+.when-section.collapsed .when-section-body{display:none;}
 
 @media(max-width:640px){
   .wrap{padding:2rem 1.25rem 4rem;}
@@ -445,7 +460,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
   <div class="top-capture-grid">
     <div class="chat-card" id="addTaskCard">
       <div class="chat-title">Add a task</div>
-      <div class="chat-sub">Adds straight to the live plan below — no code, no upload, shows up immediately. Pick when it's due; tags are optional and just for filtering later.</div>
+      <div class="chat-sub">Adds straight to the live plan below. Pick when it's due; tags are optional and just for filtering later.</div>
       <div class="add-task-grid">
         <input id="newTaskText" type="text" placeholder="What needs to happen?" />
         <select id="newTaskWhen">
@@ -453,6 +468,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
           <option value="This Week" selected>This Week</option>
           <option value="Next Week">Next Week</option>
           <option value="Future">Future</option>
+          <option value="Idea">Someday / bigger idea</option>
         </select>
         <div class="add-task-row2">
           <input id="newTaskTags" type="text" placeholder="Tags (optional, comma separated)" style="flex:1;padding:0.7rem 0.9rem;border:1px solid var(--border);border-radius:8px;font-family:var(--b);font-size:13.5px;" />
@@ -485,17 +501,44 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
   <div class="section-label tight">Filter by tag</div>
   <div class="tag-filter-bar" id="tagFilterBar"></div>
 
-  <div class="section-label" id="section-label-today">Today</div>
-  <div id="section-today"></div>
+  <div class="section-label tight">Filter by assignee</div>
+  <div class="tag-filter-bar" id="assigneeFilterBar"></div>
 
-  <div class="section-label">This week</div>
-  <div id="section-this-week"></div>
+  <div class="when-section" data-when="Today">
+    <div class="when-section-header" onclick="toggleWhenSection('Today')">
+      <span>Today</span>
+      <span class="when-section-count" id="count-Today"></span>
+      <span class="when-section-chevron">▲</span>
+    </div>
+    <div id="section-today" class="when-section-body"></div>
+  </div>
 
-  <div class="section-label">Next week</div>
-  <div id="section-next-week"></div>
+  <div class="when-section" data-when="This Week">
+    <div class="when-section-header" onclick="toggleWhenSection('This Week')">
+      <span>This week</span>
+      <span class="when-section-count" id="count-This Week"></span>
+      <span class="when-section-chevron">▲</span>
+    </div>
+    <div id="section-this-week" class="when-section-body"></div>
+  </div>
 
-  <div class="section-label">Future</div>
-  <div id="section-future"></div>
+  <div class="when-section" data-when="Next Week">
+    <div class="when-section-header" onclick="toggleWhenSection('Next Week')">
+      <span>Next week</span>
+      <span class="when-section-count" id="count-Next Week"></span>
+      <span class="when-section-chevron">▲</span>
+    </div>
+    <div id="section-next-week" class="when-section-body"></div>
+  </div>
+
+  <div class="when-section" data-when="Future">
+    <div class="when-section-header" onclick="toggleWhenSection('Future')">
+      <span>Future</span>
+      <span class="when-section-count" id="count-Future"></span>
+      <span class="when-section-chevron">▲</span>
+    </div>
+    <div id="section-future" class="when-section-body"></div>
+  </div>
 
   <div class="completed-section" id="completedSection" style="display:none;">
     <div class="completed-header" onclick="toggleCompletedCollapse()">
@@ -533,8 +576,9 @@ nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 2rem
     <div class="section-label">Bigger ideas — for when you're ready</div>
     <div class="future-sub">
       Nothing below this line is happening yet, and nothing moves forward until you say so.
-      These are things we're excited about for later — tap any of them open just to see what
-      we mean, no pressure at all.
+      Drop one here any time using the Add a Task box above (pick "Someday / bigger idea"
+      as the When). Whenever you're ready to actually work on one, open it and pick a real
+      timeframe — it moves itself straight into your plan, no need to ask us.
     </div>
   </div>
   <div id="ideasList"></div>
@@ -631,13 +675,9 @@ const WAYS_WE_HELP = [
   { icon: '🚀', color: 'var(--teal)', title: "Full implementation", description: "We build and run it end-to-end, tailored to how you work.", priceRange: "$5,000-$10,000" }
 ];
 
-// FUTURE_IDEAS — things the client has seen and gotten excited about,
-// but hasn't committed to. No checkbox, no progress tracking. Move an
-// idea into the real Tasks system (as a "Future" task) only once
-// they've actually agreed to it.
-const FUTURE_IDEAS = [
-  // { title: "...", blurb: "...", details: "...", previewItems: ["...", "..."] },
-];
+// Bigger Ideas is no longer a hand-written list -- it's just the live
+// tasks with when === 'Idea' (see IDEA_WHEN, renderIdeasList, and
+// promoteIdea further down). Nothing to edit here.
 
 /* =========================================================================
    NO NEED TO EDIT BELOW THIS LINE
@@ -686,8 +726,8 @@ function celebrate(intensity){
   }catch(e){ /* ignore */ }
 }
 
-let ideaExpanded = {};
-function toggleIdea(i){ ideaExpanded[i] = !ideaExpanded[i]; renderIdeas(); }
+// Idea cards reuse stepExpanded/toggleExpand, same as task cards -- one
+// expand/collapse mechanism for everything, not a separate one.
 
 function ideaCountKey(){ return 'elevate-idea-count-' + CLIENT.slug; }
 function getIdeaCount(){
@@ -745,9 +785,30 @@ function renderWins(){
 let TASKS = [];       // top-level tasks (no parentId), each with .subtasks[]
 let ALL_TASKS = [];   // full flat list from Airtable, refreshed on every load/add
 let activeTagFilters = [];
+let activeAssigneeFilters = [];
+let whenSectionCollapsed = {};
 let stepExpanded = {};
 let completedCollapsed = true;
 let notesSaveTimeouts = {};
+
+function whenCollapseKey(when){ return 'elevate-when-collapsed-' + CLIENT.slug + '-' + when; }
+function loadWhenCollapseState(){
+  WHEN_OPTIONS.forEach(when => {
+    try{ whenSectionCollapsed[when] = localStorage.getItem(whenCollapseKey(when)) === '1'; }catch(e){ whenSectionCollapsed[when] = false; }
+  });
+}
+function toggleWhenSection(when){
+  whenSectionCollapsed[when] = !whenSectionCollapsed[when];
+  try{ localStorage.setItem(whenCollapseKey(when), whenSectionCollapsed[when] ? '1' : '0'); }catch(e){}
+  const sectionEl = document.querySelector('.when-section[data-when="' + when + '"]');
+  if(sectionEl) sectionEl.classList.toggle('collapsed', whenSectionCollapsed[when]);
+}
+function applyWhenSectionCollapseState(){
+  WHEN_OPTIONS.forEach(when => {
+    const sectionEl = document.querySelector('.when-section[data-when="' + when + '"]');
+    if(sectionEl) sectionEl.classList.toggle('collapsed', !!whenSectionCollapsed[when]);
+  });
+}
 
 async function patchTask(id, fields){
   if(!id) return;
@@ -848,16 +909,50 @@ function renderTagFilterBar(){
   const bar = document.getElementById('tagFilterBar');
   if(!bar) return;
   const tags = allTags();
-  if(!tags.length){ bar.parentElement && (bar.previousElementSibling.style.display = 'none'); bar.style.display = 'none'; return; }
-  bar.previousElementSibling.style.display = 'block';
+  const label = bar.previousElementSibling;
+  if(!tags.length){
+    if(label) label.style.display = 'none';
+    bar.style.display = 'none';
+    return;
+  }
+  if(label) label.style.display = 'block';
   bar.style.display = 'flex';
   bar.innerHTML = tags.map(tag => `<button class="tag-chip ${activeTagFilters.includes(tag) ? 'active' : ''}" onclick="toggleTagFilter(${JSON.stringify(tag)})">${escapeHtml(tag)}</button>`).join('') +
     (activeTagFilters.length ? `<button class="tag-chip tag-chip-clear" onclick="clearTagFilters()">Clear ✕</button>` : '');
 }
 
+function allAssignees(){
+  const set = new Set();
+  TASKS.forEach(t => set.add(t.assignee || 'Unassigned'));
+  return Array.from(set).sort();
+}
+function toggleAssigneeFilter(name){
+  const idx = activeAssigneeFilters.indexOf(name);
+  if(idx >= 0) activeAssigneeFilters.splice(idx, 1); else activeAssigneeFilters.push(name);
+  render();
+}
+function clearAssigneeFilters(){ activeAssigneeFilters = []; render(); }
+function renderAssigneeFilterBar(){
+  const bar = document.getElementById('assigneeFilterBar');
+  if(!bar) return;
+  const names = allAssignees();
+  const label = bar.previousElementSibling;
+  if(names.length <= 1){
+    if(label) label.style.display = 'none';
+    bar.style.display = 'none';
+    return;
+  }
+  if(label) label.style.display = 'block';
+  bar.style.display = 'flex';
+  bar.innerHTML = names.map(name => `<button class="tag-chip ${activeAssigneeFilters.includes(name) ? 'active' : ''}" onclick="toggleAssigneeFilter(${JSON.stringify(name)})">${escapeHtml(name)}</button>`).join('') +
+    (activeAssigneeFilters.length ? `<button class="tag-chip tag-chip-clear" onclick="clearAssigneeFilters()">Clear ✕</button>` : '');
+}
+
 function visibleTasks(){
-  if(!activeTagFilters.length) return TASKS;
-  return TASKS.filter(t => t.tags.some(tag => activeTagFilters.includes(tag)));
+  let list = TASKS;
+  if(activeTagFilters.length) list = list.filter(t => t.tags.some(tag => activeTagFilters.includes(tag)));
+  if(activeAssigneeFilters.length) list = list.filter(t => activeAssigneeFilters.includes(t.assignee || 'Unassigned'));
+  return list;
 }
 
 function escapeHtml(str){
@@ -998,11 +1093,6 @@ function taskCardHtml(t){
             ${assigneeSelectHtml(t.assignee, `setTaskAssignee('${t._id}', this.value)`)}
           </div>
           ${t.tags.length ? `<div class="task-tags">${t.tags.map(tag => `<span class="task-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
-          ${t.youGive || t.youGetBack || typeof t.timeNow === 'number' ? `
-          <div class="value-trade">
-            ${t.youGive ? `<span class="value-chip value-give">⏱ You give: ${escapeHtml(t.youGive)}</span>` : ''}
-            ${timeCompareHtml(t) || (t.youGetBack ? `<span class="value-chip value-get">🎁 You get back: ${escapeHtml(t.youGetBack)}</span>` : '')}
-          </div>` : ''}
           ${t.description ? `<div class="step-desc">${escapeHtml(t.description)}</div>` : ''}
         </div>
         <div class="step-toggle-icon">▼</div>
@@ -1048,8 +1138,12 @@ function render(){
     const el = document.getElementById(WHEN_SECTION_ID[when]);
     if(!el) return;
     const items = vis.filter(t => t.when === when && !t.done);
-    el.innerHTML = items.length ? items.map(t => taskCardHtml(t)).join('') : `<div class="empty-section-note">Nothing here${activeTagFilters.length ? ' for this tag' : ' yet'}.</div>`;
+    el.innerHTML = items.length ? items.map(t => taskCardHtml(t)).join('') : `<div class="empty-section-note">Nothing here${(activeTagFilters.length || activeAssigneeFilters.length) ? ' for this filter' : ' yet'}.</div>`;
+    const countEl = document.getElementById('count-' + when);
+    if(countEl) countEl.textContent = items.length ? `(${items.length})` : '';
   });
+
+  applyWhenSectionCollapseState();
 
   const doneItems = vis.filter(t => t.done);
   const completedSection = document.getElementById('completedSection');
@@ -1064,6 +1158,8 @@ function render(){
   }
 
   renderTagFilterBar();
+  renderAssigneeFilterBar();
+  renderIdeasList();
 }
 
 /* =========================================================================
@@ -1251,24 +1347,57 @@ function renderWaysHelp(){
     </div>
   `).join('');
 }
-function renderIdeas(){
-  const list = document.getElementById('ideasList');
-  if(!list) return;
-  list.innerHTML = FUTURE_IDEAS.map((idea, i) => `
-    <div class="idea ${ideaExpanded[i] ? 'expanded' : ''}" id="idea-${i}">
-      <div class="idea-head" onclick="toggleIdea(${i})">
+const IDEA_WHEN = 'Idea';
+
+function ideaCardHtml(t){
+  const expanded = !!stepExpanded[t._id];
+  return `
+    <div class="idea ${expanded ? 'expanded' : ''}" id="task-${t._id}">
+      <div class="idea-head" onclick="toggleExpand('${t._id}')">
         <div class="idea-plus">+</div>
-        <div>
-          <div class="idea-title">${idea.title}</div>
-          <div class="idea-blurb">${idea.blurb}</div>
+        <div style="flex:1;">
+          <div class="idea-title">${escapeHtml(t.title)}</div>
+          ${t.tags.length ? `<div class="task-tags">${t.tags.map(tag => `<span class="task-tag">${escapeHtml(tag)}</span>`).join('')}</div>` : ''}
+          ${t.description ? `<div class="idea-blurb">${escapeHtml(t.description)}</div>` : ''}
         </div>
       </div>
       <div class="idea-detail">
-        <div class="detail-body">${idea.details}</div>
-        <ul class="idea-preview">${(idea.previewItems || []).map(p => `<li>${p}</li>`).join('')}</ul>
+        ${t.whyItMatters ? `<div class="detail-body">${escapeHtml(t.whyItMatters)}</div>` : ''}
+        ${t.subtasks.length ? `<ul class="idea-preview">${t.subtasks.map(s => `<li>${escapeHtml(s.text)}</li>`).join('')}</ul>` : ''}
+        <div class="idea-promote-row" onclick="event.stopPropagation();">
+          <select id="idea-when-${t._id}">
+            <option value="Today">Today</option>
+            <option value="This Week" selected>This Week</option>
+            <option value="Next Week">Next Week</option>
+            <option value="Future">Future</option>
+          </select>
+          <button onclick="promoteIdea('${t._id}');">Ready to work on this →</button>
+        </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+}
+
+async function promoteIdea(id){
+  const t = findTask(id);
+  if(!t) return;
+  const select = document.getElementById('idea-when-' + id);
+  const when = select ? select.value : 'This Week';
+  t.when = when;
+  await patchTask(id, { when });
+  await loadTasksFromAirtable();
+  render();
+  renderDashboard();
+  renderSummary();
+  celebrate(0.6);
+}
+
+function renderIdeasList(){
+  const list = document.getElementById('ideasList');
+  if(!list) return;
+  const ideas = TASKS.filter(t => t.when === IDEA_WHEN);
+  list.innerHTML = ideas.length
+    ? ideas.map(t => ideaCardHtml(t)).join('')
+    : '<div class="empty-section-note">No bigger ideas dropped yet — add one from the Add a Task box above and choose "Someday / bigger idea."</div>';
 }
 
 function getParams(){
@@ -1506,7 +1635,9 @@ renderTechStack();
 renderTools();
 renderFinancialImpact();
 renderWaysHelp();
-renderIdeas();
+// renderIdeasList() is called from render() once tasks load, not here directly.
+// applyWhenSectionCollapseState() runs after each render(); load saved state before the first render.
+loadWhenCollapseState();
 applySavedDashboardCollapseState();
 
 (async function initTasks(){
